@@ -1,21 +1,27 @@
 <template>
   <div class="left-menu">
     <ul>
-      <li>
-        <router-link to="/student">学生信息管理</router-link>
-      </li>
-      <li>
-        <router-link to="/teacher">教师信息管理</router-link>
-      </li>
+      <li><router-link to="/home">学生信息管理</router-link></li>
+      <li><router-link to="/teacher">教师信息管理</router-link></li>
     </ul>
   </div>
 </template>
-<style scoped>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+@Component
+export default class leftMenu extends Vue {
+}
+</script>
+
+<style scoped lang="less">
 .left-menu {
-  float: left;
-  min-width: 15%;
-  width: 220x;
+  background: lightgreen;
   ul li {
+    width:100%;
+    height:25px;
+    color:white;
     list-style-type: none;
   }
 }
