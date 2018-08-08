@@ -1,6 +1,10 @@
 <template>
   <div class="student">
-    <el-table :data="studentList" :header-cell-style="{textAlign:'center'}" style="width: 100%;">
+    
+    <el-button size="large" type="danger" @click="addModelDialogOnVisible = true">添加</el-button>
+    <create-student-of-dialog :username="username" v-if="addModelDialogOnVisible" @get-studentList="getStudentList" @on-closed="addModelDialogOnVisible = false" />
+
+    <el-table :data="studentList" :header-cell-style="{textAlign:'center'}" style="width: 100%" >
       <el-table-column prop="id" label="学号" width="180">
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="180">
@@ -25,13 +29,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { studentsList, deleteStudent } from '@/api/student'
+import { Component, Provide, Emit, Vue } from 'vue-property-decorator';
+import { studentsList, deleteStudent } from '@/api/student';
+import createStudentOfDialog from '@/components/create-student-of-dialog.vue';
 
-@Component
+@Component({
+  components: {
+    createStudentOfDialog
+  }
+})
 export default class Student extends Vue {
-
-  studentList: Array<any> = [
+  username: string = '';
+  addModelDialogOnVisible: boolean = false;
+  studentList: object[] = [
     {
       id: 123123,
       name: '李阳',
@@ -39,7 +49,8 @@ export default class Student extends Vue {
       sex: '男',
       chinese: 99,
       math: 30,
-      english: 55
+      english: 55,
+      sports: 20
     },
     {
       id: 123123,
@@ -48,7 +59,8 @@ export default class Student extends Vue {
       sex: '男',
       chinese: 99,
       math: 30,
-      english: 55
+      english: 55,
+      sports: 30
     },
     {
       id: 123123,
@@ -57,32 +69,46 @@ export default class Student extends Vue {
       sex: '男',
       chinese: 99,
       math: 30,
-      english: 55
+      english: 55,
+      sports: 55
     }
-  ]
+  ];
 
-  mounted() {
-    this.getList()
+  @Provide('users')
+  users = [
+    {
+      name: 'test',
+      id: 0
+    }
+  ];
+
+  mounted(): void {
+    this.getList();
+    this.username = this.$cookie.get('username');
   }
 
-  getList () {
-    let params: any = {}
+  private getList() {
+    let params: any = {};
     studentsList(params).then((res: any) => {
-      this.studentList = res.data
-      console.log(this.studentList)
-    })
+      this.studentList = res.data;
+    });
   }
 
-  handleDelete(index: number, row: any) {
-    let params: number = row.id
+  private handleDelete(index: number, row: any) {
+    let params: number = row.id;
     deleteStudent(params).then((res: any) => {
       if (res.data.code !== 0) {
-        this.$message.warning('删除失败！')
-        return
+        this.$message.warning('删除失败！');
+        return;
       }
-      this.$message.success(res.data.message)
-      this.getList()
-    })
+      this.$message.success(res.data.message);
+      this.getList();
+    });
+  }
+
+  private getStudentList(res: any) {
+    console.log(res);
+    this.getList();
   }
 }
 </script>

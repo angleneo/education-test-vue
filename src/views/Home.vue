@@ -11,10 +11,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import headerView from '@/components/header-view.vue' // @ is an alias to /src
-import leftMenu from '@/components/left-menu.vue'
-
+import { Component, Vue } from 'vue-property-decorator';
+import headerView from '@/components/header-view.vue'; // @ is an alias to /src
+import leftMenu from '@/components/left-menu.vue';
 
 @Component({
   components: {
@@ -22,8 +21,8 @@ import leftMenu from '@/components/left-menu.vue'
     leftMenu
   }
 })
-export default class Home extends Vue {
-}
+
+export default class Home extends Vue {}
 </script>
 <style lang="less" scoped>
 .header {
@@ -46,7 +45,7 @@ export default class Home extends Vue {
     height: 100%;
     position: fixed;
     top: 80px;
-    left: 230px;
+    left: 280px;
   }
 }
 </style>

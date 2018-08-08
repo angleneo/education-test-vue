@@ -10,36 +10,50 @@
       </el-form-item>
       <el-button type="primary" style="width:200px;" @click="loginSystem">登陆</el-button>
       <div style="margin: 20px;"></div>
-      <el-button type="success" style="width:200px;" @click="signIn">注册</el-button>
+      <el-button type="success" style="width:200px;" @click="regist">注册</el-button>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { login } from '@/api/user'
+import { Component, Vue } from 'vue-property-decorator';
+import { login, register } from '@/api/user';
 
 @Component({})
 export default class Login extends Vue {
-  username: string = ''
-  password: string = ''
+  username: string = '';
+  password: string = '';
 
   loginSystem() {
     let params: any = {
       username: this.username,
       password: this.password
-    }
+    };
     login(params).then((res: any) => {
       if (res.data.code !== 0) {
-        this.$message.warning(res.data.message)
-        return
+        this.$message.warning(res.data.message);
+        return;
       }
-      this.$message.success(res.data.message)
-      this.$cookie.set('username', this.username)
-      this.$router.push({ path: '/home' })
-    })
+      this.$message.success(res.data.message);
+      this.$cookie.set('username', this.username);
+      this.$router.push({ path: '/home' });
+    });
   }
 
-  signIn() {}
+  regist(): void {
+    let params: any = {
+      username: this.username,
+      password: this.password
+    };
+    register(params).then((res: any) => {
+      if (res.data.code !== 0) {
+        this.$message.warning(res.data.message);
+        return;
+      }
+      this.$message.success(res.data.message);
+      this.$cookie.set('username', this.username);
+      this.$router.push({ path: '/home' });
+    });
+  }
 }
 </script>
